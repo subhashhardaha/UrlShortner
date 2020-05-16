@@ -8,7 +8,7 @@ from .utils import create_shortcode
 
 class AffiliateURLManager(models.Manager):
     def all(self,*args,**kwarg):
-        qs_main=super(AffiliateURL,self).all(*args,**kwarg)
+        qs_main=super().all(*args,**kwarg)
         qs=qs_main.filter(active=True)
         return qs
 
