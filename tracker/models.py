@@ -19,6 +19,7 @@ class AffiliateURL(models.Model):
     updated=models.DateTimeField(auto_now=True)
     timestamp=models.DateTimeField(auto_now_add=True)
 
+    objects=AffiliateURLManager()
 
     def save(self,*args,**kwargs):
         if self.shortcode is None or self.shortcode == "":
