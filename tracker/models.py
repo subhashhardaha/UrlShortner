@@ -2,7 +2,7 @@ import random
 import string
 
 from django.db import models
-from .utils import code_generator
+from .utils import create_shortcode
 
 # Create your models here.
 
@@ -15,7 +15,7 @@ class AffiliateURL(models.Model):
 
     def save(self,*args,**kwargs):
         if self.shortcode is None or self.shortcode == "":
-            self.shortcode=code_generator()
+            self.shortcode=create_shortcode(self)
         super(AffiliateURL,self).save(*args,**kwargs)
 
     def __str__(self):
