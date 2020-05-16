@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tracker.views import affiliate_redirect_views
+from tracker.views import HomeView,AffiliateCBView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('<slug:shortcode>/', affiliate_redirect_views),
+    path('', HomeView.as_view()),
+    path('<slug:shortcode>/', AffiliateCBView.as_view()),
 ]
