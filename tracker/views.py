@@ -4,12 +4,19 @@ from django.views.generic.base import View
 
 from .models import AffiliateURL
 
+from .forms import SubmitUrlForm
+
 
 # Create your views here.
 
 class HomeView(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'tracker/home.html')
+        the_form=SubmitUrlForm()
+        context = {
+            "title":"Submit URL",
+            "form":the_form
+        }
+        return render(request,'tracker/home.html',context)
 
 
     def post(self,request,*args,**kwargs):

@@ -12,12 +12,13 @@
 
 
 <div class="container">
-    <h1>URL Shortner</h1>
+    <h1>{{ title }}</h1>
     <form action="." method="POST">
         {% csrf_token %}
-        <div class="form-group">
-          <input type="text" class="form-control" id="url" placeholder="Shorten Your URL." name="url" required>
-        </div>
+        <!--<div class="form-group">-->
+          <!--<input type="text" class="form-control" id="url" placeholder="Shorten Your URL." name="url" required>-->
+        <!--</div>-->
+        {{ form.as_p }}
 
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
