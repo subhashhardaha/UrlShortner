@@ -11,6 +11,11 @@ class HomeView(View):
     def get(self,request,*args,**kwargs):
         return render(request,'tracker/home.html')
 
+
+    def post(self,request,*args,**kwargs):
+        print(request.POST)
+        return render(request,'tracker/home.html')
+
 class AffiliateCBView(View):
     def get(self,request, shortcode=None, *args, **kwargs):
         obj=get_object_or_404(AffiliateURL,shortcode=shortcode)
@@ -20,5 +25,7 @@ class AffiliateCBView(View):
         # if qs.exists() and qs.count() == 1:
         #     obj = qs.first()
         #     obj_url=obj.url
+        print(request.META)
 
-        return HttpResponse("hello {sc}".format(sc=obj_url))
+        #return HttpResponse("hello {sc}".format(sc=obj_url))
+        return HttpResponseRedirect(obj_url)
