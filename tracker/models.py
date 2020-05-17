@@ -28,7 +28,7 @@ class AffiliateURL(models.Model):
         super(AffiliateURL,self).save(*args,**kwargs)
 
     def get_short_url(self):
-        return "http://www.project.com/{shortcode}".format(shortcode=self.shortcode)
+        return "http://192.168.0.100/{shortcode}".format(shortcode=self.shortcode)
 
     def __str__(self):
         return str(self.url)

@@ -1,8 +1,11 @@
+from django.db.models import Sum
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 
+from analytics.models import ClickEvent
 from .models import AffiliateURL
+from .utils import ip_address
 
 from .forms import SubmitUrlForm
 
@@ -28,7 +31,7 @@ class HomeView(View):
         template = 'tracker/home.html'
 
         if form.is_valid():
-            print(form.cleaned_data.get('url'))
+            #print(form.cleaned_data.get('url'))
             url = form.cleaned_data.get('url')
             obj, created = AffiliateURL.objects.get_or_create(url=url)
 
@@ -41,6 +44,8 @@ class HomeView(View):
                 template = 'tracker/success.html'
 
             else:
+                #print(obj.clickevent_set.aggregate(count=Sum('count')))
+                context['count']=obj.clickevent_set.aggregate(count=Sum('count'))['count'] or 0
                 template = 'tracker/exists.html'
 
         return render(request, template, context)
@@ -55,7 +60,12 @@ class AffiliateCBView(View):
         # if qs.exists() and qs.count() == 1:
         #     obj = qs.first()
         #     obj_url=obj.url
-        print(request.META)
-
+        print(request.META.get('X_FORWARDED_FOR'))
+        print(request.META.get('REMOTE_ADDR'))
+        print(request.META.get('HTTP_HOST'))
+        print(request.META.get('HTTP_REFERER'))
+        #print(request.META)
+        ip_add=ip_address(request)
         # return HttpResponse("hello {sc}".format(sc=obj_url))
+        print(ClickEvent.objects.create_event(obj,ip_add))
         return HttpResponseRedirect(obj_url)
