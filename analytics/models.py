@@ -6,10 +6,12 @@ from tracker.models import AffiliateURL
 
 
 class ClickEventManager(models.Manager):
-    def create_event(self, instance,remote_add):
+    def create_event(self, instance,request_meta):
         if isinstance(instance,AffiliateURL):
-            obj, created = self.get_or_create(affiliate_url=instance,remote_add=remote_add)
+            obj, created = self.get_or_create(affiliate_url=instance,remote_add=request_meta['REMOTE_ADDR'])
             obj.count += 1
+            obj.http_referer=request_meta['HTTP_REFERER']
+            obj.http_user_agent=request_meta['HTTP_USER_AGENT']
             obj.save()
             return obj.count
         return None

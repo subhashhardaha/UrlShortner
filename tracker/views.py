@@ -60,12 +60,18 @@ class AffiliateCBView(View):
         # if qs.exists() and qs.count() == 1:
         #     obj = qs.first()
         #     obj_url=obj.url
-        print(request.META.get('X_FORWARDED_FOR'))
-        print(request.META.get('REMOTE_ADDR'))
-        print(request.META.get('HTTP_HOST'))
-        print(request.META.get('HTTP_REFERER'))
+        #print(request.META.get('X_FORWARDED_FOR'))
+        #print(request.META.get('REMOTE_ADDR'))
+        #print(request.META.get('HTTP_HOST'))
+        #print(request.META.get('HTTP_USER_AGENT'))
+
+        request_meta={}
+        request_meta['REMOTE_ADDR']=ip_address(request)
+        request_meta['HTTP_REFERER']=request.META.get('HTTP_REFERER')
+        request_meta['HTTP_USER_AGENT']=request.META.get('HTTP_USER_AGENT')
+
         #print(request.META)
-        ip_add=ip_address(request)
+
         # return HttpResponse("hello {sc}".format(sc=obj_url))
-        print(ClickEvent.objects.create_event(obj,ip_add))
+        print(ClickEvent.objects.create_event(obj,request_meta))
         return HttpResponseRedirect(obj_url)
