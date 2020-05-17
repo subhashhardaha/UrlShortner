@@ -16,6 +16,7 @@ class AffiliateURLManager(models.Manager):
 class AffiliateURL(models.Model):
     url = models.CharField(max_length=220, validators=[validate_url])
     shortcode = models.CharField(max_length=50,unique=True,blank=True)
+    sessionid = models.CharField(max_length=50,null=True)
     active=models.BooleanField(default=True)
     updated=models.DateTimeField(auto_now=True)
     timestamp=models.DateTimeField(auto_now_add=True)

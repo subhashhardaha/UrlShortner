@@ -33,7 +33,12 @@ class HomeView(View):
         if form.is_valid():
             #print(form.cleaned_data.get('url'))
             url = form.cleaned_data.get('url')
-            obj, created = AffiliateURL.objects.get_or_create(url=url)
+            sessionid=request.COOKIES['csrftoken']
+            obj, created = AffiliateURL.objects.get_or_create(url=url,sessionid=sessionid)
+
+            #obj=AffiliateURL(url=url)
+            #obj.save()
+            #created= True
 
             context = {
                 "object": obj,
@@ -41,8 +46,12 @@ class HomeView(View):
             }
 
             if created:
+                # print(request.META.get('X_FORWARDED_FOR'))
+                # print("Cookies", request.COOKIES)
+                # print("CookiesHTTP", request.META.get('HTTP_COOKIE'))
+                #
+                # context['count'] = obj.clickevent_set.aggregate(count=Sum('count'))['count'] or 0
                 template = 'tracker/success.html'
-
             else:
                 #print(obj.clickevent_set.aggregate(count=Sum('count')))
                 context['count']=obj.clickevent_set.aggregate(count=Sum('count'))['count'] or 0
@@ -60,7 +69,7 @@ class AffiliateCBView(View):
         # if qs.exists() and qs.count() == 1:
         #     obj = qs.first()
         #     obj_url=obj.url
-        #print(request.META.get('X_FORWARDED_FOR'))
+        print(request.META.get('X_FORWARDED_FOR'))
         #print(request.META.get('REMOTE_ADDR'))
         #print(request.META.get('HTTP_HOST'))
         #print(request.META.get('HTTP_USER_AGENT'))
