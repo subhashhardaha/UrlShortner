@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container text-center">
+    <h1>URL Shortner</h1>
     <div class="row">
 
-        <div class="text-center col-sm-12">
-            <h1>URL Shortner</h1>
+
             <div class="col-sm-4 col-sm-offset-4">
                 <form action="." method="POST">
                     {% csrf_token %}
@@ -21,10 +21,39 @@
                 </form>
 
             </div>
+    </div>
+
+    {% if session_urls %}
+    <br>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <table class="table">
+                    <!--<thead>-->
+                      <!--<tr>-->
+                        <!--<th>Firstname</th>-->
+                        <!--<th>Lastname</th>-->
+                        <!--<th>Email</th>-->
+                      <!--</tr>-->
+                    <!--</thead>-->
+                    <tbody>
+                    {% for session_url in session_urls %}
+                      <tr>
+                        <td>{{ session_url.url }}</td>
+                        <td> </td>
+                        <td><a href="{{ session_url.get_short_url }}">{{ session_url.get_short_url }}</a></td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
 
         </div>
 
-    </div>
+
+    {% endif %}
+
+
 </div>
 
 {% endblock content %}

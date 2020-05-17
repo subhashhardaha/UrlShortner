@@ -17,8 +17,13 @@ class HomeView(View):
         the_form = SubmitUrlForm()
         context = {
             "title": "Submit URL",
-            "form": the_form
+            "form": the_form,
+            "session_url":None
         }
+        sessionid = request.COOKIES.get('csrftoken')
+
+        session_url=AffiliateURL.objects.filter(sessionid=sessionid)
+        context['session_urls']=session_url
         return render(request, 'tracker/home.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -33,7 +38,9 @@ class HomeView(View):
         if form.is_valid():
             #print(form.cleaned_data.get('url'))
             url = form.cleaned_data.get('url')
-            sessionid=request.COOKIES['csrftoken']
+            #sessionid=request.COOKIES['csrftoken']
+            sessionid = request.COOKIES.get('csrftoken')
+
             obj, created = AffiliateURL.objects.get_or_create(url=url,sessionid=sessionid)
 
             #obj=AffiliateURL(url=url)
