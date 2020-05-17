@@ -3,6 +3,7 @@ import string
 
 from django.db import models
 from .utils import create_shortcode
+from .validators import validate_url
 
 # Create your models here.
 
@@ -13,7 +14,7 @@ class AffiliateURLManager(models.Manager):
         return qs
 
 class AffiliateURL(models.Model):
-    url = models.CharField(max_length=220, )
+    url = models.CharField(max_length=220, validators=[validate_url])
     shortcode = models.CharField(max_length=50,unique=True,blank=True)
     active=models.BooleanField(default=True)
     updated=models.DateTimeField(auto_now=True)
