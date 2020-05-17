@@ -20,5 +20,5 @@ from tracker.views import HomeView,AffiliateCBView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view()),
-    path('<slug:shortcode>/', AffiliateCBView.as_view()),
+    path('<slug:shortcode>/', AffiliateCBView.as_view(),name='shortcode'),
 ]
