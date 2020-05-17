@@ -20,8 +20,16 @@ class HomeView(View):
 
 
     def post(self,request,*args,**kwargs):
+        form=SubmitUrlForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+        context = {
+            "title": "Success",
+            "form": form
+        }
+
         print(request.POST)
-        return render(request,'tracker/home.html')
+        return render(request,'tracker/home.html',context)
 
 class AffiliateCBView(View):
     def get(self,request, shortcode=None, *args, **kwargs):
